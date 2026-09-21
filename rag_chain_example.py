@@ -11,7 +11,7 @@ model = ChatOpenAI(model="gpt-4o-mini")
 
 config = RedisConfig(
     index_name="qa",
-    redis_url="redis://192.168.100.238:6379",
+    redis_url="redis://localhost:6379",
     metadata_schema=[
         {"name": "category", "type": "tag"},
         {"name": "num", "type": "numeric"},

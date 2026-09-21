@@ -1,3 +1,4 @@
 langchain-core
 langchain-openai
 langchain-redis
+langgraph>=1.0,<2.0

@@ -1,4 +1,8 @@
+langchain
 langchain-core
+langchain-deepseek
 langchain-openai
 langchain-redis
+langchain-tavily
 langgraph>=1.0,<2.0
+python-dotenv

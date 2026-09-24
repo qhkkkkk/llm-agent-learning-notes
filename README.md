@@ -10,14 +10,16 @@
 | 02 | LangGraph 包裹配送状态图 | 共享状态、Reducer、节点、固定边与条件路由 | [学习笔记](notes/02-langgraph-package-delivery.md) · [示例代码](langgraph_package_delivery.py) |
 | 03 | LangGraph 工具调用搜索 Agent | 消息状态、Tool Calling、条件循环、Tavily 搜索与终止判断 | [学习笔记](notes/03-langgraph-tool-calling-search-agent.md) · [示例代码](langgraph_tavily_search_agent.py) |
 | 04 | LangGraph Agentic RAG | 知识库工具、相关性评分、问题改写、循环检索与流式执行 | [学习笔记](notes/04-langgraph-agentic-rag.md) · [示例代码](langgraph_agentic_rag.py) |
+| 05 | LangGraph 顺序写作工作流 | 输入与输出 Schema、内部状态、Prompt Chaining 与顺序节点 | [学习笔记](notes/05-langgraph-sequential-writing-workflow.md) · [示例代码](langgraph_sequential_writing.py) |
 
 ## 建议学习顺序
 
 1. 先运行包裹配送示例。它不调用大模型，也不需要 API Key，适合用来理解 LangGraph 的基本结构。
 2. 再阅读 RAG 示例，理解如何把外部知识检索结果交给大模型生成回答。
 3. 接着学习工具调用搜索 Agent，理解模型如何申请工具调用、程序如何执行工具，以及图如何循环并结束。
-4. 最后学习 Agentic RAG，观察系统如何检查检索质量，并在结果不理想时改写问题、重新检索。
-5. 尝试完成每篇笔记末尾的扩展练习，把“看懂”变成“会写”。
+4. 学习顺序写作工作流，理解输入、内部过程状态、输出过滤和多阶段 Prompt Chaining。
+5. 最后学习 Agentic RAG，观察系统如何检查检索质量，并在结果不理想时改写问题、重新检索。
+6. 尝试完成每篇笔记末尾的扩展练习，把“看懂”变成“会写”。
 
 ## 快速开始
 
@@ -67,6 +69,12 @@ python langgraph_tavily_search_agent.py
 python langgraph_agentic_rag.py
 ```
 
+运行“大纲 → 初稿 → 润色 → 终稿”的顺序写作工作流：
+
+```bash
+python langgraph_sequential_writing.py
+```
+
 > 最小 RAG 示例还需要可连接的 Redis 服务以及已经写入向量库的文档。搜索 Agent 需要 Tavily API Key。Agentic RAG 会在启动时读取 `Docs/markdown/` 中的本地资料并创建内存向量索引。具体配置和限制见对应学习笔记。
 
 ## 仓库结构
@@ -78,10 +86,12 @@ python langgraph_agentic_rag.py
 │   ├── 01-langchain-rag-chain.md
 │   ├── 02-langgraph-package-delivery.md
 │   ├── 03-langgraph-tool-calling-search-agent.md
-│   └── 04-langgraph-agentic-rag.md
+│   ├── 04-langgraph-agentic-rag.md
+│   └── 05-langgraph-sequential-writing-workflow.md
 ├── .env.example
 ├── langgraph_agentic_rag.py
 ├── langgraph_package_delivery.py
+├── langgraph_sequential_writing.py
 ├── langgraph_tavily_search_agent.py
 ├── rag_chain_example.py
 └── requirements.txt
@@ -95,3 +105,4 @@ python langgraph_agentic_rag.py
 - [ ] LangGraph：记忆与持久化
 - [x] Agent：工具调用与多步骤任务
 - [x] Agentic RAG：检索、评分、改写与重新检索
+- [x] LangGraph：输入输出 Schema 与顺序写作工作流

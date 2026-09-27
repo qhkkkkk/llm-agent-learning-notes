@@ -9,5 +9,6 @@ langchain-tavily
 langchain-text-splitters
 langgraph>=1.0,<2.0
 python-dotenv
+pydantic
 tiktoken
 unstructured

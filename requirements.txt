@@ -8,6 +8,8 @@ langchain-redis
 langchain-tavily
 langchain-text-splitters
 langgraph>=1.0,<2.0
+langgraph-checkpoint-postgres
+psycopg[binary]
 python-dotenv
 pydantic
 tiktoken

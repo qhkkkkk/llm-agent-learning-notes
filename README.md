@@ -12,6 +12,7 @@
 | 04 | LangGraph Agentic RAG | 知识库工具、相关性评分、问题改写、循环检索与流式执行 | [学习笔记](notes/04-langgraph-agentic-rag.md) · [示例代码](langgraph_agentic_rag.py) |
 | 05 | LangGraph 顺序写作工作流 | 输入与输出 Schema、内部状态、Prompt Chaining 与顺序节点 | [学习笔记](notes/05-langgraph-sequential-writing-workflow.md) · [示例代码](langgraph_sequential_writing.py) |
 | 06 | LangGraph Orchestrator-Worker | 结构化任务拆分、Send 动态并行、Reducer 汇总与扇出/扇入 | [学习笔记](notes/06-langgraph-orchestrator-worker.md) · [示例代码](langgraph_orchestrator_worker.py) |
+| 07 | LangGraph PostgreSQL 持久化与时间旅行 | PostgresSaver、线程记忆、状态快照、Replay 与 Fork | [学习笔记](notes/07-langgraph-postgres-persistence-time-travel.md) · [示例代码](langgraph_postgres_time_travel.py) |
 
 ## 建议学习顺序
 
@@ -20,8 +21,9 @@
 3. 接着学习工具调用搜索 Agent，理解模型如何申请工具调用、程序如何执行工具，以及图如何循环并结束。
 4. 学习顺序写作工作流，理解输入、内部过程状态、输出过滤和多阶段 Prompt Chaining。
 5. 学习 Orchestrator-Worker，理解协调者如何用 `Send` 动态分配并行任务，再用 Reducer 汇总结果。
-6. 最后学习 Agentic RAG，观察系统如何检查检索质量，并在结果不理想时改写问题、重新检索。
-7. 尝试完成每篇笔记末尾的扩展练习，把“看懂”变成“会写”。
+6. 学习 PostgreSQL 持久化与时间旅行，理解线程记忆、状态历史、重放和状态分叉。
+7. 最后学习 Agentic RAG，观察系统如何检查检索质量，并在结果不理想时改写问题、重新检索。
+8. 尝试完成每篇笔记末尾的扩展练习，把“看懂”变成“会写”。
 
 ## 快速开始
 
@@ -83,7 +85,13 @@ python langgraph_sequential_writing.py
 python langgraph_orchestrator_worker.py
 ```
 
-> 最小 RAG 示例还需要可连接的 Redis 服务以及已经写入向量库的文档。搜索 Agent 需要 Tavily API Key。Agentic RAG 会在启动时读取 `Docs/markdown/` 中的本地资料并创建内存向量索引。具体配置和限制见对应学习笔记。
+运行带 PostgreSQL 记忆、检查点历史和时间旅行的搜索 Agent：
+
+```bash
+python langgraph_postgres_time_travel.py
+```
+
+> 最小 RAG 示例还需要可连接的 Redis 服务以及已经写入向量库的文档。搜索 Agent 需要 Tavily API Key；PostgreSQL 持久化示例还需要可连接的 PostgreSQL 数据库。Agentic RAG 会在启动时读取 `Docs/markdown/` 中的本地资料并创建内存向量索引。具体配置和限制见对应学习笔记。
 
 ## 仓库结构
 
@@ -96,11 +104,13 @@ python langgraph_orchestrator_worker.py
 │   ├── 03-langgraph-tool-calling-search-agent.md
 │   ├── 04-langgraph-agentic-rag.md
 │   ├── 05-langgraph-sequential-writing-workflow.md
-│   └── 06-langgraph-orchestrator-worker.md
+│   ├── 06-langgraph-orchestrator-worker.md
+│   └── 07-langgraph-postgres-persistence-time-travel.md
 ├── .env.example
 ├── langgraph_agentic_rag.py
 ├── langgraph_orchestrator_worker.py
 ├── langgraph_package_delivery.py
+├── langgraph_postgres_time_travel.py
 ├── langgraph_sequential_writing.py
 ├── langgraph_tavily_search_agent.py
 ├── rag_chain_example.py
@@ -112,8 +122,9 @@ python langgraph_orchestrator_worker.py
 - [x] LangChain：最小 RAG 问答链
 - [x] LangGraph：状态、Reducer 与条件路由
 - [x] LangGraph：循环与终止条件
-- [ ] LangGraph：记忆与持久化
+- [x] LangGraph：记忆与持久化
 - [x] Agent：工具调用与多步骤任务
 - [x] Agentic RAG：检索、评分、改写与重新检索
 - [x] LangGraph：输入输出 Schema 与顺序写作工作流
 - [x] LangGraph：Orchestrator-Worker 与 Send 动态并行
+- [x] LangGraph：状态历史、Replay 与 Fork 时间旅行

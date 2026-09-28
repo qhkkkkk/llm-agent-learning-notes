@@ -14,7 +14,7 @@
 | 06 | LangGraph Orchestrator-Worker | 结构化任务拆分、Send 动态并行、Reducer 汇总与扇出/扇入 | [学习笔记](notes/06-langgraph-orchestrator-worker.md) · [示例代码](langgraph_orchestrator_worker.py) |
 | 07 | LangGraph PostgreSQL 持久化与时间旅行 | PostgresSaver、线程记忆、状态快照、Replay 与 Fork | [学习笔记](notes/07-langgraph-postgres-persistence-time-travel.md) · [示例代码](langgraph_postgres_time_travel.py) |
 | 08 | LangGraph 长期记忆 Store | 命名空间、精确读取、前缀检索、PostgresStore 与语义搜索 | [学习笔记](notes/08-langgraph-long-term-memory-store.md) · [示例代码](langgraph_long_term_memory_store.py) |
-| 09 | LangGraph 跨线程个性化 Agent | 结构化记忆提取、Runtime Context、记忆合并与跨线程复用 | [学习笔记](notes/09-langgraph-cross-thread-personalization.md) · [示例代码](langgraph_cross_thread_personalization.py) |
+| 09 | LangGraph 跨线程个性化 Agent | 应用与框架能力边界、结构化记忆提取、Runtime Context、记忆合并与跨线程复用 | [学习笔记](notes/09-langgraph-cross-thread-personalization.md) · [示例代码](langgraph_cross_thread_personalization.py) |
 
 ## 建议学习顺序
 
@@ -25,7 +25,7 @@
 5. 学习 Orchestrator-Worker，理解协调者如何用 `Send` 动态分配并行任务，再用 Reducer 汇总结果。
 6. 学习 PostgreSQL 持久化与时间旅行，理解线程记忆、状态历史、重放和状态分叉。
 7. 学习长期记忆 Store，理解跨线程数据、命名空间、键值读写和语义搜索。
-8. 把 Store 接入个性化 Agent，理解结构化提取、Runtime、记忆合并和跨线程复用。
+8. 把 Store 接入个性化 Agent，先区分应用能力与 LangGraph 原语，再理解结构化提取、Runtime、记忆合并和跨线程复用。
 9. 最后学习 Agentic RAG，观察系统如何检查检索质量，并在结果不理想时改写问题、重新检索。
 10. 尝试完成每篇笔记末尾的扩展练习，把“看懂”变成“会写”。
 

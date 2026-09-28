@@ -15,6 +15,7 @@
 | 07 | LangGraph PostgreSQL 持久化与时间旅行 | PostgresSaver、线程记忆、状态快照、Replay 与 Fork | [学习笔记](notes/07-langgraph-postgres-persistence-time-travel.md) · [示例代码](langgraph_postgres_time_travel.py) |
 | 08 | LangGraph 长期记忆 Store | 命名空间、精确读取、前缀检索、PostgresStore 与语义搜索 | [学习笔记](notes/08-langgraph-long-term-memory-store.md) · [示例代码](langgraph_long_term_memory_store.py) |
 | 09 | LangGraph 跨线程个性化 Agent | 应用与框架能力边界、结构化记忆提取、Runtime Context、记忆合并与跨线程复用 | [学习笔记](notes/09-langgraph-cross-thread-personalization.md) · [示例代码](langgraph_cross_thread_personalization.py) |
+| 10 | LangGraph 短期记忆管理 | 模型输入裁剪、状态删除、全部清空、Overwrite 与滚动摘要 | [学习笔记](notes/10-langgraph-short-term-memory-management.md) · [示例代码](langgraph_short_term_memory_management.py) |
 
 ## 建议学习顺序
 
@@ -26,8 +27,9 @@
 6. 学习 PostgreSQL 持久化与时间旅行，理解线程记忆、状态历史、重放和状态分叉。
 7. 学习长期记忆 Store，理解跨线程数据、命名空间、键值读写和语义搜索。
 8. 把 Store 接入个性化 Agent，先区分应用能力与 LangGraph 原语，再理解结构化提取、Runtime、记忆合并和跨线程复用。
-9. 最后学习 Agentic RAG，观察系统如何检查检索质量，并在结果不理想时改写问题、重新检索。
-10. 尝试完成每篇笔记末尾的扩展练习，把“看懂”变成“会写”。
+9. 学习短期记忆管理，区分模型输入裁剪与状态修改，并掌握 RemoveMessage、Overwrite 和滚动摘要。
+10. 最后学习 Agentic RAG，观察系统如何检查检索质量，并在结果不理想时改写问题、重新检索。
+11. 尝试完成每篇笔记末尾的扩展练习，把“看懂”变成“会写”。
 
 ## 快速开始
 
@@ -107,6 +109,12 @@ python langgraph_long_term_memory_store.py
 python langgraph_cross_thread_personalization.py
 ```
 
+运行可切换裁剪、删除、清空和摘要策略的短期记忆示例：
+
+```bash
+python langgraph_short_term_memory_management.py
+```
+
 > 最小 RAG 示例还需要可连接的 Redis 服务以及已经写入向量库的文档。搜索 Agent 需要 Tavily API Key；PostgreSQL 持久化示例还需要可连接的 PostgreSQL 数据库。长期记忆 Store 示例需要 Embedding API，切换 PostgreSQL 后端时还需要数据库和 `pgvector`。Agentic RAG 会在启动时读取 `Docs/markdown/` 中的本地资料并创建内存向量索引。具体配置和限制见对应学习笔记。
 
 ## 仓库结构
@@ -123,7 +131,8 @@ python langgraph_cross_thread_personalization.py
 │   ├── 06-langgraph-orchestrator-worker.md
 │   ├── 07-langgraph-postgres-persistence-time-travel.md
 │   ├── 08-langgraph-long-term-memory-store.md
-│   └── 09-langgraph-cross-thread-personalization.md
+│   ├── 09-langgraph-cross-thread-personalization.md
+│   └── 10-langgraph-short-term-memory-management.md
 ├── .env.example
 ├── langgraph_agentic_rag.py
 ├── langgraph_cross_thread_personalization.py
@@ -132,6 +141,7 @@ python langgraph_cross_thread_personalization.py
 ├── langgraph_package_delivery.py
 ├── langgraph_postgres_time_travel.py
 ├── langgraph_sequential_writing.py
+├── langgraph_short_term_memory_management.py
 ├── langgraph_tavily_search_agent.py
 ├── rag_chain_example.py
 └── requirements.txt
@@ -150,3 +160,4 @@ python langgraph_cross_thread_personalization.py
 - [x] LangGraph：状态历史、Replay 与 Fork 时间旅行
 - [x] LangGraph：Store 长期记忆、命名空间与语义搜索
 - [x] LangGraph：结构化长期记忆与跨线程个性化
+- [x] LangGraph：短期记忆裁剪、删除、清空与滚动摘要

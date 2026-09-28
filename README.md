@@ -14,6 +14,7 @@
 | 06 | LangGraph Orchestrator-Worker | 结构化任务拆分、Send 动态并行、Reducer 汇总与扇出/扇入 | [学习笔记](notes/06-langgraph-orchestrator-worker.md) · [示例代码](langgraph_orchestrator_worker.py) |
 | 07 | LangGraph PostgreSQL 持久化与时间旅行 | PostgresSaver、线程记忆、状态快照、Replay 与 Fork | [学习笔记](notes/07-langgraph-postgres-persistence-time-travel.md) · [示例代码](langgraph_postgres_time_travel.py) |
 | 08 | LangGraph 长期记忆 Store | 命名空间、精确读取、前缀检索、PostgresStore 与语义搜索 | [学习笔记](notes/08-langgraph-long-term-memory-store.md) · [示例代码](langgraph_long_term_memory_store.py) |
+| 09 | LangGraph 跨线程个性化 Agent | 结构化记忆提取、Runtime Context、记忆合并与跨线程复用 | [学习笔记](notes/09-langgraph-cross-thread-personalization.md) · [示例代码](langgraph_cross_thread_personalization.py) |
 
 ## 建议学习顺序
 
@@ -24,8 +25,9 @@
 5. 学习 Orchestrator-Worker，理解协调者如何用 `Send` 动态分配并行任务，再用 Reducer 汇总结果。
 6. 学习 PostgreSQL 持久化与时间旅行，理解线程记忆、状态历史、重放和状态分叉。
 7. 学习长期记忆 Store，理解跨线程数据、命名空间、键值读写和语义搜索。
-8. 最后学习 Agentic RAG，观察系统如何检查检索质量，并在结果不理想时改写问题、重新检索。
-9. 尝试完成每篇笔记末尾的扩展练习，把“看懂”变成“会写”。
+8. 把 Store 接入个性化 Agent，理解结构化提取、Runtime、记忆合并和跨线程复用。
+9. 最后学习 Agentic RAG，观察系统如何检查检索质量，并在结果不理想时改写问题、重新检索。
+10. 尝试完成每篇笔记末尾的扩展练习，把“看懂”变成“会写”。
 
 ## 快速开始
 
@@ -99,6 +101,12 @@ python langgraph_postgres_time_travel.py
 python langgraph_long_term_memory_store.py
 ```
 
+运行能够跨两个对话线程复用用户偏好的个性化 Agent：
+
+```bash
+python langgraph_cross_thread_personalization.py
+```
+
 > 最小 RAG 示例还需要可连接的 Redis 服务以及已经写入向量库的文档。搜索 Agent 需要 Tavily API Key；PostgreSQL 持久化示例还需要可连接的 PostgreSQL 数据库。长期记忆 Store 示例需要 Embedding API，切换 PostgreSQL 后端时还需要数据库和 `pgvector`。Agentic RAG 会在启动时读取 `Docs/markdown/` 中的本地资料并创建内存向量索引。具体配置和限制见对应学习笔记。
 
 ## 仓库结构
@@ -114,9 +122,11 @@ python langgraph_long_term_memory_store.py
 │   ├── 05-langgraph-sequential-writing-workflow.md
 │   ├── 06-langgraph-orchestrator-worker.md
 │   ├── 07-langgraph-postgres-persistence-time-travel.md
-│   └── 08-langgraph-long-term-memory-store.md
+│   ├── 08-langgraph-long-term-memory-store.md
+│   └── 09-langgraph-cross-thread-personalization.md
 ├── .env.example
 ├── langgraph_agentic_rag.py
+├── langgraph_cross_thread_personalization.py
 ├── langgraph_long_term_memory_store.py
 ├── langgraph_orchestrator_worker.py
 ├── langgraph_package_delivery.py
@@ -139,3 +149,4 @@ python langgraph_long_term_memory_store.py
 - [x] LangGraph：Orchestrator-Worker 与 Send 动态并行
 - [x] LangGraph：状态历史、Replay 与 Fork 时间旅行
 - [x] LangGraph：Store 长期记忆、命名空间与语义搜索
+- [x] LangGraph：结构化长期记忆与跨线程个性化

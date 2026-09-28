@@ -16,6 +16,7 @@
 | 08 | LangGraph 长期记忆 Store | 命名空间、精确读取、前缀检索、PostgresStore 与语义搜索 | [学习笔记](notes/08-langgraph-long-term-memory-store.md) · [示例代码](langgraph_long_term_memory_store.py) |
 | 09 | LangGraph 跨线程个性化 Agent | 应用与框架能力边界、结构化记忆提取、Runtime Context、记忆合并与跨线程复用 | [学习笔记](notes/09-langgraph-cross-thread-personalization.md) · [示例代码](langgraph_cross_thread_personalization.py) |
 | 10 | LangGraph 短期记忆管理 | 模型输入裁剪、状态删除、全部清空、Overwrite 与滚动摘要 | [学习笔记](notes/10-langgraph-short-term-memory-management.md) · [示例代码](langgraph_short_term_memory_management.py) |
+| 11 | LangGraph 人工审批与中断恢复 | interrupt、Checkpointer、Command resume、动态路由与安全副作用 | [学习笔记](notes/11-langgraph-human-in-the-loop-approval.md) · [示例代码](langgraph_human_in_the_loop_approval.py) |
 
 ## 建议学习顺序
 
@@ -28,8 +29,9 @@
 7. 学习长期记忆 Store，理解跨线程数据、命名空间、键值读写和语义搜索。
 8. 把 Store 接入个性化 Agent，先区分应用能力与 LangGraph 原语，再理解结构化提取、Runtime、记忆合并和跨线程复用。
 9. 学习短期记忆管理，区分模型输入裁剪与状态修改，并掌握 RemoveMessage、Overwrite 和滚动摘要。
-10. 最后学习 Agentic RAG，观察系统如何检查检索质量，并在结果不理想时改写问题、重新检索。
-11. 尝试完成每篇笔记末尾的扩展练习，把“看懂”变成“会写”。
+10. 学习人工审批与中断恢复，理解 interrupt、Checkpointer、thread_id 和 Command 的协作方式。
+11. 最后学习 Agentic RAG，观察系统如何检查检索质量，并在结果不理想时改写问题、重新检索。
+12. 尝试完成每篇笔记末尾的扩展练习，把“看懂”变成“会写”。
 
 ## 快速开始
 
@@ -115,6 +117,12 @@ python langgraph_cross_thread_personalization.py
 python langgraph_short_term_memory_management.py
 ```
 
+运行会暂停并等待“批准/拒绝”的人工审批示例：
+
+```bash
+python langgraph_human_in_the_loop_approval.py
+```
+
 > 最小 RAG 示例还需要可连接的 Redis 服务以及已经写入向量库的文档。搜索 Agent 需要 Tavily API Key；PostgreSQL 持久化示例还需要可连接的 PostgreSQL 数据库。长期记忆 Store 示例需要 Embedding API，切换 PostgreSQL 后端时还需要数据库和 `pgvector`。Agentic RAG 会在启动时读取 `Docs/markdown/` 中的本地资料并创建内存向量索引。具体配置和限制见对应学习笔记。
 
 ## 仓库结构
@@ -132,10 +140,12 @@ python langgraph_short_term_memory_management.py
 │   ├── 07-langgraph-postgres-persistence-time-travel.md
 │   ├── 08-langgraph-long-term-memory-store.md
 │   ├── 09-langgraph-cross-thread-personalization.md
-│   └── 10-langgraph-short-term-memory-management.md
+│   ├── 10-langgraph-short-term-memory-management.md
+│   └── 11-langgraph-human-in-the-loop-approval.md
 ├── .env.example
 ├── langgraph_agentic_rag.py
 ├── langgraph_cross_thread_personalization.py
+├── langgraph_human_in_the_loop_approval.py
 ├── langgraph_long_term_memory_store.py
 ├── langgraph_orchestrator_worker.py
 ├── langgraph_package_delivery.py
@@ -161,3 +171,4 @@ python langgraph_short_term_memory_management.py
 - [x] LangGraph：Store 长期记忆、命名空间与语义搜索
 - [x] LangGraph：结构化长期记忆与跨线程个性化
 - [x] LangGraph：短期记忆裁剪、删除、清空与滚动摘要
+- [x] LangGraph：interrupt、Command 与人工审批恢复

@@ -2,11 +2,63 @@
 
 上一节学习了 Store 的基础读写；这一节把 Store 真正接入 LangGraph Agent。系统会从用户消息中结构化提取个人资料，合并到长期记忆，并在另一个全新的对话线程中读取这些信息，生成个性化回答。
 
-读完后应能理解：**`thread_id` 与 `user_id` 为什么不能混为一谈、Store 如何注入节点、怎样避免空值覆盖旧记忆，以及长期记忆如何进入模型上下文。**
+读完后应能理解：**应用能力与 LangGraph 框架能力的边界、`thread_id` 与 `user_id` 为什么不能混为一谈、Store 如何注入节点、怎样避免空值覆盖旧记忆，以及长期记忆如何进入模型上下文。**
 
 ## 一句话理解
 
 Checkpointer 用 `thread_id` 记住一段对话，Store 用 `user_id` 记住一个人；当同一用户开始新线程时，聊天记录可以是空的，但 Agent 仍能读取其长期偏好。
+
+## 先分清：应用能力不等于 LangGraph 框架能力
+
+图片中的分层方向是正确的：**记忆、人机交互、时间旅行最终都是应用向用户呈现的能力，不能简单归功于一个框架。** 不过，“LangGraph 只提供持久化”又过度简化了它的职责。更准确的公式是：
+
+> 应用能力 = LangGraph 原语 + 业务规则 + 模型或外部服务 + 产品界面 + 安全治理
+
+```mermaid
+flowchart TB
+    subgraph APP[应用层：用户真正体验到的能力]
+        M[记忆与个性化]
+        H[人工审核、补充与确认]
+        T[回放历史、恢复与探索分支]
+    end
+
+    subgraph LG[LangGraph：可组合的框架能力]
+        CP[Checkpointer<br/>线程状态与检查点]
+        ST[Store<br/>跨线程应用数据]
+        IN[interrupt + Command<br/>暂停与恢复]
+        TT[get_state_history + update_state<br/>Replay 与 Fork]
+    end
+
+    subgraph BIZ[应用自己必须实现]
+        RULES[提取与合并规则、界面、身份权限、审计、保留策略、外部副作用控制]
+    end
+
+    CP --> M
+    ST --> M
+    CP --> H
+    IN --> H
+    CP --> T
+    TT --> T
+    RULES --> M
+    RULES --> H
+    RULES --> T
+```
+
+| 面向用户的应用能力 | LangGraph 提供的机制 | 应用仍然负责什么 |
+| --- | --- | --- |
+| 记住当前对话 | Checkpointer 按 `thread_id` 保存图状态和消息 | 上下文裁剪、摘要策略、展示与清除入口 |
+| 跨会话个性化 | Store、namespace、Runtime Store 注入 | 提取哪些事实、如何合并、何时过期、用户授权与权限隔离 |
+| 人机交互 / Human-in-the-loop | `interrupt()` 暂停，Checkpointer 保存现场，`Command(resume=...)` 恢复 | 何时要求审核、审核界面、身份校验、超时和审计 |
+| 时间旅行 | 检查点、`get_state_history()`、从旧配置 Replay、`update_state()` Fork | 让用户选择哪个版本、标注分支、处理重复 API 调用等外部副作用 |
+
+需要特别记住四条边界：
+
+1. **LangGraph 不会自动决定“什么值得记住”。** Store 只保存应用写进去的数据；提取、校验、合并和删除策略属于业务代码。
+2. **LangGraph 不会自动生成审核界面。** 它可以暂停和恢复执行，应用需要把 interrupt 的内容展示给人，并把人的决定安全地传回去。
+3. **时间旅行不是数据库整体回滚。** Replay 会重新执行检查点之后的节点，模型调用、搜索、发邮件或付款等副作用可能再次发生，应用必须保证幂等或增加审批。
+4. **持久化不一定等于永久保存。** `InMemorySaver` 和 `InMemoryStore` 在进程退出后会丢失；生产环境要换成数据库后端并配置保留策略。
+
+因此，本例展示的“跨线程记住用户口味”是应用能力；LangGraph 在底层提供 Store、Checkpointer 和 Runtime 注入，而“提取口味、合并旧档案、限制访问、把记忆放进提示词”都是本例的应用逻辑。
 
 ## 最终流程
 
@@ -510,6 +562,13 @@ python langgraph_cross_thread_personalization.py
 
 </details>
 
+<details>
+<summary>10. “长期记忆”究竟是应用能力还是 LangGraph 能力？</summary>
+
+从用户视角看，“记住我并进行个性化”是应用能力。LangGraph 提供 Checkpointer、Store、namespace 和 Runtime 等基础机制；应用负责决定记什么、怎样提取与合并、何时删除，以及如何获得授权并保护数据。
+
+</details>
+
 ## 22. 可以继续练习
 
 - 使用第三个 `thread_id` 询问“我叫什么”，验证跨线程召回。
@@ -530,6 +589,9 @@ python langgraph_cross_thread_personalization.py
 - [BaseStore API](https://reference.langchain.com/python/langgraph.store/base/BaseStore)
 - [LangGraph Store 基础类型](https://reference.langchain.com/python/langgraph.store/base)
 - [InjectedStore API](https://reference.langchain.com/python/langgraph.prebuilt/tool_node/InjectedStore)
+- [LangGraph Persistence：Checkpointer 与 Store](https://docs.langchain.com/oss/python/langgraph/persistence)
+- [LangGraph Interrupts：暂停与恢复](https://docs.langchain.com/oss/python/langgraph/interrupts)
+- [LangGraph Time Travel：Replay 与 Fork](https://docs.langchain.com/oss/python/langgraph/use-time-travel)
 
 ## 完整源码
 

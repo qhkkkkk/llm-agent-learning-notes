@@ -13,6 +13,7 @@
 | 05 | LangGraph 顺序写作工作流 | 输入与输出 Schema、内部状态、Prompt Chaining 与顺序节点 | [学习笔记](notes/05-langgraph-sequential-writing-workflow.md) · [示例代码](langgraph_sequential_writing.py) |
 | 06 | LangGraph Orchestrator-Worker | 结构化任务拆分、Send 动态并行、Reducer 汇总与扇出/扇入 | [学习笔记](notes/06-langgraph-orchestrator-worker.md) · [示例代码](langgraph_orchestrator_worker.py) |
 | 07 | LangGraph PostgreSQL 持久化与时间旅行 | PostgresSaver、线程记忆、状态快照、Replay 与 Fork | [学习笔记](notes/07-langgraph-postgres-persistence-time-travel.md) · [示例代码](langgraph_postgres_time_travel.py) |
+| 08 | LangGraph 长期记忆 Store | 命名空间、精确读取、前缀检索、PostgresStore 与语义搜索 | [学习笔记](notes/08-langgraph-long-term-memory-store.md) · [示例代码](langgraph_long_term_memory_store.py) |
 
 ## 建议学习顺序
 
@@ -22,8 +23,9 @@
 4. 学习顺序写作工作流，理解输入、内部过程状态、输出过滤和多阶段 Prompt Chaining。
 5. 学习 Orchestrator-Worker，理解协调者如何用 `Send` 动态分配并行任务，再用 Reducer 汇总结果。
 6. 学习 PostgreSQL 持久化与时间旅行，理解线程记忆、状态历史、重放和状态分叉。
-7. 最后学习 Agentic RAG，观察系统如何检查检索质量，并在结果不理想时改写问题、重新检索。
-8. 尝试完成每篇笔记末尾的扩展练习，把“看懂”变成“会写”。
+7. 学习长期记忆 Store，理解跨线程数据、命名空间、键值读写和语义搜索。
+8. 最后学习 Agentic RAG，观察系统如何检查检索质量，并在结果不理想时改写问题、重新检索。
+9. 尝试完成每篇笔记末尾的扩展练习，把“看懂”变成“会写”。
 
 ## 快速开始
 
@@ -91,7 +93,13 @@ python langgraph_orchestrator_worker.py
 python langgraph_postgres_time_travel.py
 ```
 
-> 最小 RAG 示例还需要可连接的 Redis 服务以及已经写入向量库的文档。搜索 Agent 需要 Tavily API Key；PostgreSQL 持久化示例还需要可连接的 PostgreSQL 数据库。Agentic RAG 会在启动时读取 `Docs/markdown/` 中的本地资料并创建内存向量索引。具体配置和限制见对应学习笔记。
+运行长期记忆 Store 示例（默认使用内存后端，也可切换 PostgreSQL）：
+
+```bash
+python langgraph_long_term_memory_store.py
+```
+
+> 最小 RAG 示例还需要可连接的 Redis 服务以及已经写入向量库的文档。搜索 Agent 需要 Tavily API Key；PostgreSQL 持久化示例还需要可连接的 PostgreSQL 数据库。长期记忆 Store 示例需要 Embedding API，切换 PostgreSQL 后端时还需要数据库和 `pgvector`。Agentic RAG 会在启动时读取 `Docs/markdown/` 中的本地资料并创建内存向量索引。具体配置和限制见对应学习笔记。
 
 ## 仓库结构
 
@@ -105,9 +113,11 @@ python langgraph_postgres_time_travel.py
 │   ├── 04-langgraph-agentic-rag.md
 │   ├── 05-langgraph-sequential-writing-workflow.md
 │   ├── 06-langgraph-orchestrator-worker.md
-│   └── 07-langgraph-postgres-persistence-time-travel.md
+│   ├── 07-langgraph-postgres-persistence-time-travel.md
+│   └── 08-langgraph-long-term-memory-store.md
 ├── .env.example
 ├── langgraph_agentic_rag.py
+├── langgraph_long_term_memory_store.py
 ├── langgraph_orchestrator_worker.py
 ├── langgraph_package_delivery.py
 ├── langgraph_postgres_time_travel.py
@@ -128,3 +138,4 @@ python langgraph_postgres_time_travel.py
 - [x] LangGraph：输入输出 Schema 与顺序写作工作流
 - [x] LangGraph：Orchestrator-Worker 与 Send 动态并行
 - [x] LangGraph：状态历史、Replay 与 Fork 时间旅行
+- [x] LangGraph：Store 长期记忆、命名空间与语义搜索

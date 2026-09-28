@@ -9,6 +9,7 @@ langchain-tavily
 langchain-text-splitters
 langgraph>=1.0,<2.0
 langgraph-checkpoint-postgres
+numpy
 psycopg[binary]
 python-dotenv
 pydantic

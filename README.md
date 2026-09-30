@@ -20,6 +20,7 @@
 | 12 | LangGraph 人工审阅与内容编辑 | 结构化恢复值、通过与编辑分支、状态覆盖、版本冲突与内容安全 | [学习笔记](notes/12-langgraph-human-review-edit.md) · [示例代码](langgraph_human_review_edit.py) |
 | 13 | LangGraph 邮件工具调用前人工审批 | ToolNode、工具调用循环、参数修改、ToolMessage 与副作用安全 | [学习笔记](notes/13-langgraph-email-tool-human-approval.md) · [示例代码](langgraph_email_tool_human_approval.py) |
 | 14 | LangGraph 内存时间旅行 | StateSnapshot、历史定位、update_state、as_node、Replay 与 Fork | [学习笔记](notes/14-langgraph-in-memory-time-travel.md) · [示例代码](langgraph_in_memory_time_travel.py) |
+| 15 | LangGraph Runtime Context | State 与运行上下文边界、context_schema、Runtime 注入及 Checkpointer/Store 区分 | [学习笔记](notes/15-langgraph-runtime-context.md) · [示例代码](langgraph_runtime_context.py) |
 
 ## 建议学习顺序
 
@@ -36,8 +37,9 @@
 11. 继续学习人工审阅与内容编辑，理解结构化恢复值、状态覆盖和内容版本控制。
 12. 把人工审批放进邮件工具调用循环，掌握 ToolNode、参数修改和副作用前置确认。
 13. 用最小笑话工作流再次练习状态历史、检查点定位、Replay 与 Fork，重点理解 `update_state` 和 `as_node`。
-14. 最后学习 Agentic RAG，观察系统如何检查检索质量，并在结果不理想时改写问题、重新检索。
-15. 尝试完成每篇笔记末尾的扩展练习，把“看懂”变成“会写”。
+14. 学习 Runtime Context，区分一次运行的只读依赖、可变 State、Checkpointer 和跨线程 Store。
+15. 最后学习 Agentic RAG，观察系统如何检查检索质量，并在结果不理想时改写问题、重新检索。
+16. 尝试完成每篇笔记末尾的扩展练习，把“看懂”变成“会写”。
 
 ## 快速开始
 
@@ -147,6 +149,12 @@ python langgraph_email_tool_human_approval.py
 python langgraph_in_memory_time_travel.py
 ```
 
+运行“可变 State + 只读 Runtime Context”的最小问候示例：
+
+```bash
+python langgraph_runtime_context.py
+```
+
 > 最小 RAG 示例还需要可连接的 Redis 服务以及已经写入向量库的文档。搜索 Agent 需要 Tavily API Key；PostgreSQL 持久化示例还需要可连接的 PostgreSQL 数据库。长期记忆 Store 示例需要 Embedding API，切换 PostgreSQL 后端时还需要数据库和 `pgvector`。Agentic RAG 会在启动时读取 `Docs/markdown/` 中的本地资料并创建内存向量索引。具体配置和限制见对应学习笔记。
 
 ## 仓库结构
@@ -168,7 +176,8 @@ python langgraph_in_memory_time_travel.py
 │   ├── 11-langgraph-human-in-the-loop-approval.md
 │   ├── 12-langgraph-human-review-edit.md
 │   ├── 13-langgraph-email-tool-human-approval.md
-│   └── 14-langgraph-in-memory-time-travel.md
+│   ├── 14-langgraph-in-memory-time-travel.md
+│   └── 15-langgraph-runtime-context.md
 ├── .env.example
 ├── langgraph_agentic_rag.py
 ├── langgraph_cross_thread_personalization.py
@@ -180,6 +189,7 @@ python langgraph_in_memory_time_travel.py
 ├── langgraph_orchestrator_worker.py
 ├── langgraph_package_delivery.py
 ├── langgraph_postgres_time_travel.py
+├── langgraph_runtime_context.py
 ├── langgraph_sequential_writing.py
 ├── langgraph_short_term_memory_management.py
 ├── langgraph_tavily_search_agent.py
@@ -205,3 +215,4 @@ python langgraph_in_memory_time_travel.py
 - [x] LangGraph：结构化人工审阅与内容编辑
 - [x] LangGraph：工具调用前人工审批、参数修改与副作用安全
 - [x] LangGraph：内存检查点、状态历史、update_state 与分叉重放
+- [x] LangGraph：Runtime Context、可变 State 与运行依赖边界

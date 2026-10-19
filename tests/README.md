@@ -26,10 +26,24 @@ python -m unittest discover -s tests -p test_summarization_middleware.py -v
 
 详见 [第 17 篇学习笔记](../notes/17-langchain-summarization-middleware.md#validation)。
 
+## 内容审核中间件
+
+```bash
+python -m unittest discover -s tests -p test_content_moderation.py -v
+```
+
+使用离线聊天模型与显式模拟的官方审核结果，运行真实 Agent、自定义输入审核和 OpenAI 审核中间件。HTTP 客户端被阻断，不读取真实密钥发起请求。
+
+覆盖三种未通过行为、消息 ID 替换、格式异常、服务异常、工具循环、输入范围、输出与工具结果审核，以及官方客户端配置，共 17 项。
+
+模拟类别与分数不是实际审核结果；本组不评估分类准确率。
+
+详见 [第 18 篇学习笔记](../notes/18-langchain-content-moderation.md#validation)。
+
 ## 运行全部验证
 
 ```bash
 python -m unittest discover -s tests -v
 ```
 
-当前共 19 项离线测试，不代替真实模型服务认证、网络连通性与摘要质量验证。
+当前共 36 项离线测试，不代替真实模型服务认证、网络连通性、摘要质量或内容审核准确性验证。

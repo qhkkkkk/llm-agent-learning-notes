@@ -12,6 +12,7 @@ langgraph>=1.0,<2.0
 langgraph-checkpoint>=4.3,<5.0
 langgraph-checkpoint-postgres
 numpy
+openai
 psycopg[binary]
 python-dotenv
 pydantic

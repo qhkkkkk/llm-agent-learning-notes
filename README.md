@@ -2,7 +2,7 @@
 
 这是我的大模型应用与 Agent 开发学习笔记。每个主题都尽量包含：通俗解释、流程图、可运行代码、预期结果、常见错误和复习问题，方便零基础读者理解，也方便自己回顾。
 
-当前收录 **16 个学习主题**，第 16 篇记录结构化天气 Agent 的实现、真实排错和验证结果。
+当前收录 **17 个学习主题**，包括结构化天气 Agent、内置摘要中间件的实现、真实排错与离线验证。
 
 ## 学习目录
 
@@ -24,6 +24,7 @@
 | 14 | LangGraph 内存时间旅行 | StateSnapshot、历史定位、update_state、as_node、Replay 与 Fork | [学习笔记](notes/14-langgraph-in-memory-time-travel.md) · [示例代码](langgraph_in_memory_time_travel.py) |
 | 15 | LangGraph Runtime Context | State 与运行上下文边界、context_schema、Runtime 注入及 Checkpointer/Store 区分 | [学习笔记](notes/15-langgraph-runtime-context.md) · [示例代码](langgraph_runtime_context.py) |
 | 16 | LangChain 结构化天气 Agent | OpenRouter 接入、ToolRuntime、ToolStrategy、两轮对话与检查点类型恢复 | [学习笔记](notes/16-langchain-weather-structured-agent.md) · [示例代码](langchain_weather_structured_agent.py) |
+| 17 | LangChain 摘要中间件 | 双模型 OpenRouter 配置、trigger/keep、工具消息边界与摘要状态更新 | [学习笔记](notes/17-langchain-summarization-middleware.md) · [示例代码](langchain_summarization_middleware.py) |
 
 ## 建议学习顺序
 
@@ -42,8 +43,9 @@
 13. 用最小笑话工作流再次练习状态历史、检查点定位、Replay 与 Fork，重点理解 `update_state` 和 `as_node`。
 14. 学习 Runtime Context，区分一次运行的只读依赖、可变 State、Checkpointer 和跨线程 Store。
 15. 学习结构化天气 Agent，将运行上下文、工具、Store 与检查点组合起来，理解原生输出策略和 ToolStrategy 的区别。
-16. 最后学习 Agentic RAG，观察系统如何检查检索质量，并在结果不理想时改写问题、重新检索。
-17. 尝试完成每篇笔记末尾的扩展练习，把“看懂”变成“会写”。
+16. 学习内置摘要中间件，理解独立摘要模型、触发条件、保留策略和工具消息的安全切分。
+17. 最后学习 Agentic RAG，观察系统如何检查检索质量，并在结果不理想时改写问题、重新检索。
+18. 尝试完成每篇笔记末尾的扩展练习，把“看懂”变成“会写”。
 
 ## 快速开始
 
@@ -171,6 +173,18 @@ python langchain_weather_structured_agent.py
 python -m unittest discover -s tests -p test_weather_structured_agent.py -v
 ```
 
+运行带内置摘要中间件的天气 Agent，观察两轮对话中的历史压缩：
+
+```bash
+python langchain_summarization_middleware.py
+```
+
+主模型和摘要模型均通过 OpenRouter 创建，具体配置与原 401 排错见第 17 篇。运行全部离线测试：
+
+```bash
+python -m unittest discover -s tests -v
+```
+
 > 最小 RAG 示例还需要可连接的 Redis 服务以及已经写入向量库的文档。搜索 Agent 需要 Tavily API Key；PostgreSQL 持久化示例还需要可连接的 PostgreSQL 数据库。长期记忆 Store 示例需要 Embedding API，切换 PostgreSQL 后端时还需要数据库和 `pgvector`。Agentic RAG 会在启动时读取 `Docs/markdown/` 中的本地资料并创建内存向量索引。具体配置和限制见对应学习笔记。
 
 ## 仓库结构
@@ -194,9 +208,11 @@ python -m unittest discover -s tests -p test_weather_structured_agent.py -v
 │   ├── 13-langgraph-email-tool-human-approval.md
 │   ├── 14-langgraph-in-memory-time-travel.md
 │   ├── 15-langgraph-runtime-context.md
-│   └── 16-langchain-weather-structured-agent.md
+│   ├── 16-langchain-weather-structured-agent.md
+│   └── 17-langchain-summarization-middleware.md
 ├── tests/                          # 离线 Agent 与检查点验证
 ├── .env.example
+├── langchain_summarization_middleware.py
 ├── langchain_weather_structured_agent.py
 ├── langgraph_agentic_rag.py
 ├── langgraph_cross_thread_personalization.py
@@ -236,3 +252,4 @@ python -m unittest discover -s tests -p test_weather_structured_agent.py -v
 - [x] LangGraph：内存检查点、状态历史、update_state 与分叉重放
 - [x] LangGraph：Runtime Context、可变 State 与运行依赖边界
 - [x] LangChain：OpenRouter、ToolRuntime、ToolStrategy 与两轮结构化天气 Agent
+- [x] LangChain：内置摘要中间件、双模型提供商配置、触发条件与消息保留

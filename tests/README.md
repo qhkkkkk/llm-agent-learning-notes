@@ -54,10 +54,24 @@ python -m unittest discover -s tests -p test_custom_middleware.py -v
 
 详见 [第 19 篇学习笔记](../notes/19-langchain-custom-middleware.md#validation)。
 
+## 类式中间件
+
+```bash
+python -m unittest discover -s tests -p test_class_middleware.py -v
+```
+
+用离线模型驱动真实 Agent 与两个类式中间件，阻断同步和异步 HTTP 客户端。
+
+覆盖默认与交换后的嵌套顺序、天气工具循环、内层恢复、外层重进、九次耗尽与第九次成功、单层三次、已完成工具不重复、工具异常边界、永久错误放大及 OpenRouter 构造参数，共 12 项。
+
+“底层尝试次数”按测试模型的实际执行计数，不等同于真实 HTTP 请求次数；未调用真实模型。
+
+详见 [第 20 篇学习笔记](../notes/20-langchain-class-middleware.md#validation)。
+
 ## 运行全部验证
 
 ```bash
 python -m unittest discover -s tests -v
 ```
 
-当前共 48 项离线测试，不代替真实模型服务认证、网络连通性、摘要质量或内容审核准确性验证。
+当前共 60 项离线测试，不代替真实模型服务认证、网络连通性、摘要质量或内容审核准确性验证。

@@ -854,3 +854,5 @@ print(response["messages"][-1].content)
 - [LangChain：Agent 源码](https://github.com/langchain-ai/langchain/blob/master/libs/langchain/langchain/agents/factory.py)：对应模型节点、包装器链与前后钩子的图连接逻辑；在线默认分支可能与本地版本不同。
 - [LangGraph：ToolNode 源码](https://github.com/langchain-ai/langgraph/blob/main/libs/prebuilt/langgraph/prebuilt/tool_node.py)：工具请求、返回结果与错误处理边界；行为以安装版本与测试为准。
 - [本章测试说明](../tests/README.md#自定义中间件)：运行验证命令与覆盖范围。
+
+- [下一章：类式中间件](20-langchain-class-middleware.md)：把钩子放进类，推演两个包装器的执行顺序与九次尝试上限。

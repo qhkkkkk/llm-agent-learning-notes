@@ -4,10 +4,12 @@ langchain-community
 langchain-core
 langchain-deepseek
 langchain-openai
+langchain-openrouter>=0.2.9,<0.3
 langchain-redis
 langchain-tavily
 langchain-text-splitters
 langgraph>=1.0,<2.0
+langgraph-checkpoint>=4.3,<5.0
 langgraph-checkpoint-postgres
 numpy
 psycopg[binary]

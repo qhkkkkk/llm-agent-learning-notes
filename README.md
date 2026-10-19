@@ -2,7 +2,7 @@
 
 这是我的大模型应用与 Agent 开发学习笔记。每个主题都尽量包含：通俗解释、流程图、可运行代码、预期结果、常见错误和复习问题，方便零基础读者理解，也方便自己回顾。
 
-当前收录 **18 个学习主题**，包括结构化天气 Agent、摘要中间件、内容审核的实现、真实排错与离线验证。
+当前收录 **19 个学习主题**，包括结构化天气 Agent、摘要与内容审核中间件、自定义钩子、真实排错与离线验证。
 
 ## 学习目录
 
@@ -26,6 +26,7 @@
 | 16 | LangChain 结构化天气 Agent | OpenRouter 接入、ToolRuntime、ToolStrategy、两轮对话与检查点类型恢复 | [学习笔记](notes/16-langchain-weather-structured-agent.md) · [示例代码](langchain_weather_structured_agent.py) |
 | 17 | LangChain 摘要中间件 | 双模型 OpenRouter 配置、trigger/keep、工具消息边界与摘要状态更新 | [学习笔记](notes/17-langchain-summarization-middleware.md) · [示例代码](langchain_summarization_middleware.py) |
 | 18 | LangChain 内容审核中间件 | 官方审核与 OpenRouter 替代、401 定位、end/error/replace、消息 ID 替换 | [学习笔记](notes/18-langchain-content-moderation.md) · [OpenRouter 代码](langchain_openrouter_input_moderation.py) · [官方参考](langchain_openai_moderation.py) |
+| 19 | LangChain 自定义中间件 | 六种钩子、handler 回调、模型重试、工具返回协议与组合顺序 | [学习笔记](notes/19-langchain-custom-middleware.md) · [示例代码](langchain_custom_middleware.py) |
 
 ## 建议学习顺序
 
@@ -46,8 +47,9 @@
 15. 学习结构化天气 Agent，将运行上下文、工具、Store 与检查点组合起来，理解原生输出策略和 ToolStrategy 的区别。
 16. 学习内置摘要中间件，理解独立摘要模型、触发条件、保留策略和工具消息的安全切分。
 17. 学习内容审核中间件，区分认证失败与审核未通过，练习提前结束、抛异常和按消息 ID 替换。
-18. 最后学习 Agentic RAG，观察系统如何检查检索质量，并在结果不理想时改写问题、重新检索。
-19. 尝试完成每篇笔记末尾的扩展练习，把“看懂”变成“会写”。
+18. 学习自定义中间件，掌握六种钩子的执行位置、handler 回调、重试边界与工具异常传播。
+19. 最后学习 Agentic RAG，观察系统如何检查检索质量，并在结果不理想时改写问题、重新检索。
+20. 尝试完成每篇笔记末尾的扩展练习，把“看懂”变成“会写”。
 
 ## 快速开始
 
@@ -189,7 +191,15 @@ python langchain_openrouter_input_moderation.py
 
 第 18 篇还提供 `langchain_openai_moderation.py` 官方中间件参考，该路径需要独立的 OpenAI 官方 Key。两种实现的范围和凭据要求见对应笔记。
 
-主模型和摘要模型均通过 OpenRouter 创建，具体配置与原 401 排错见第 17 篇。运行全部离线测试：
+运行自定义中间件示例，观察 Agent、模型与工具的调用顺序：
+
+```bash
+python langchain_custom_middleware.py
+```
+
+该示例使用 `OPENROUTER_API_KEY`，包含有限模型重试与工具调用日志；天气仍是演示值，钩子返回约定见第 19 篇。
+
+第 17 篇的主模型和摘要模型均通过 OpenRouter 创建。运行全部离线测试：
 
 ```bash
 python -m unittest discover -s tests -v
@@ -220,9 +230,11 @@ python -m unittest discover -s tests -v
 │   ├── 15-langgraph-runtime-context.md
 │   ├── 16-langchain-weather-structured-agent.md
 │   ├── 17-langchain-summarization-middleware.md
-│   └── 18-langchain-content-moderation.md
+│   ├── 18-langchain-content-moderation.md
+│   └── 19-langchain-custom-middleware.md
 ├── tests/                          # 离线 Agent 与检查点验证
 ├── .env.example
+├── langchain_custom_middleware.py
 ├── langchain_openai_moderation.py
 ├── langchain_openrouter_input_moderation.py
 ├── langchain_summarization_middleware.py
@@ -267,3 +279,4 @@ python -m unittest discover -s tests -v
 - [x] LangChain：OpenRouter、ToolRuntime、ToolStrategy 与两轮结构化天气 Agent
 - [x] LangChain：内置摘要中间件、双模型提供商配置、触发条件与消息保留
 - [x] LangChain：内容审核、独立凭据、三种处理方式与 OpenRouter 输入审核
+- [x] LangChain：自定义中间件、六种钩子、handler 回调与有限重试

@@ -40,10 +40,24 @@ python -m unittest discover -s tests -p test_content_moderation.py -v
 
 详见 [第 18 篇学习笔记](../notes/18-langchain-content-moderation.md#validation)。
 
+## 自定义中间件
+
+```bash
+python -m unittest discover -s tests -p test_custom_middleware.py -v
+```
+
+使用可编排的离线聊天模型驱动真实 Agent、中间件与 ToolNode，阻断同步、异步 HTTP 客户端。
+
+覆盖直接回答、天气工具循环、成功与耗尽重试、永久错误的宽泛捕获、模型重试不重复工具、工具异常传播、错误 ToolMessage、Command 透传、多个中间件顺序、OpenRouter 配置与无检查点的调用隔离，共 12 项。
+
+不会读取真实 Key 发出请求，也不把离线日志写成真实模型执行记录。
+
+详见 [第 19 篇学习笔记](../notes/19-langchain-custom-middleware.md#validation)。
+
 ## 运行全部验证
 
 ```bash
 python -m unittest discover -s tests -v
 ```
 
-当前共 36 项离线测试，不代替真实模型服务认证、网络连通性、摘要质量或内容审核准确性验证。
+当前共 48 项离线测试，不代替真实模型服务认证、网络连通性、摘要质量或内容审核准确性验证。

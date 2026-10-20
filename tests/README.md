@@ -96,10 +96,24 @@ python -m unittest discover -s tests -p test_dynamic_prompt.py -v
 
 详见 [第 22 篇学习笔记](../notes/22-langchain-dynamic-prompt.md#validation)。
 
+## MCP 双服务集成
+
+```bash
+python -m unittest discover -s tests -p test_mcp_multi_server.py -v
+```
+
+使用真实 stdio 计算器子进程、临时回环 HTTP 天气服务和离线模型。测试阻止外部 HTTP 请求，自动选择空闲端口并清理自己的进程；不会占用默认 8000 端口。
+
+覆盖两个服务的工具范围、算术正常/负数/零、HTTP 会话复用、完整 Agent 工具链、get_tools 路径、关闭后会话、参数错误消息、模型异常组与 OpenRouter 构造参数，共 9 项。
+
+需安装根目录固定的 MCP 兼容依赖。Windows 环境需要允许创建异步子进程命名管道；本次集成在同一专用虚拟环境的沙箱外运行。没有发起真实模型请求，也没有查询真实天气。
+
+详见 [第 23 篇学习笔记](../notes/23-langchain-mcp-multi-server.md#validation)。
+
 ## 运行全部验证
 
 ```bash
 python -m unittest discover -s tests -v
 ```
 
-当前共 84 项离线测试，不代替真实模型服务认证、网络连通性、摘要质量或内容审核准确性验证。
+当前共 93 项验证：原有 84 项使用离线模型，本章新增 9 项包含真实本机 MCP 通信与离线模型。验证不替代真实模型服务认证、公网服务可用性或业务数据质量评估。

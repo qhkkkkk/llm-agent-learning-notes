@@ -18,3 +18,8 @@ python-dotenv
 pydantic
 tiktoken
 unstructured
+
+# 第 23 篇：兼容 MultiServerMCPClient / MCP 1.x 的版本组合
+fastmcp==2.14.5
+langchain-mcp-adapters==0.3.2
+mcp>=1.24,<2

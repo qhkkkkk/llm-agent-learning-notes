@@ -624,3 +624,5 @@ if __name__ == "__main__":
 - [第 15 篇：Runtime Context](15-langgraph-runtime-context.md)：状态、上下文和运行依赖的区别。
 - [第 21 篇：动态工具筛选](21-langchain-state-based-tools.md)：对比 request.state、request.override 与 handler。
 - [离线测试说明](../tests/README.md#动态提示词)：执行命令和验证范围。
+
+- [下一章：MCP 双服务 Agent](23-langchain-mcp-multi-server.md)：把计算器与天气工具分别放入 stdio 和 HTTP 服务，组合成异步 Agent。

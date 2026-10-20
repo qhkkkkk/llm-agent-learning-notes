@@ -2,7 +2,7 @@
 
 这是我的大模型应用与 Agent 开发学习笔记。每个主题都尽量包含：通俗解释、流程图、可运行代码、预期结果、常见错误和复习问题，方便零基础读者理解，也方便自己回顾。
 
-当前收录 **20 个学习主题**，包括结构化天气 Agent、摘要与内容审核中间件、自定义钩子、类式中间件与嵌套重试。
+当前收录 **21 个学习主题**，包括结构化天气 Agent、摘要与内容审核中间件、自定义钩子、类式中间件与状态驱动的工具筛选。
 
 ## 学习目录
 
@@ -28,6 +28,7 @@
 | 18 | LangChain 内容审核中间件 | 官方审核与 OpenRouter 替代、401 定位、end/error/replace、消息 ID 替换 | [学习笔记](notes/18-langchain-content-moderation.md) · [OpenRouter 代码](langchain_openrouter_input_moderation.py) · [官方参考](langchain_openai_moderation.py) |
 | 19 | LangChain 自定义中间件 | 六种钩子、handler 回调、模型重试、工具返回协议与组合顺序 | [学习笔记](notes/19-langchain-custom-middleware.md) · [示例代码](langchain_custom_middleware.py) |
 | 20 | LangChain 类式中间件 | AgentMiddleware 继承、self、实例化、执行顺序与双层重试放大 | [学习笔记](notes/20-langchain-class-middleware.md) · [示例代码](langchain_class_middleware.py) |
+| 21 | LangChain 状态驱动的工具筛选 | 自定义 State、列表推导式、request.override、handler 与工具执行边界 | [学习笔记](notes/21-langchain-state-based-tools.md) · [示例代码](langchain_state_based_tools.py) |
 
 ## 建议学习顺序
 
@@ -50,8 +51,9 @@
 17. 学习内容审核中间件，区分认证失败与审核未通过，练习提前结束、抛异常和按消息 ID 替换。
 18. 学习自定义中间件，掌握六种钩子的执行位置、handler 回调、重试边界与工具异常传播。
 19. 学习类式中间件，理解 `AgentMiddleware`、`self`、实例化、列表顺序与两层重试的乘法关系。
-20. 最后学习 Agentic RAG，观察系统如何检查检索质量，并在结果不理想时改写问题、重新检索。
-21. 尝试完成每篇笔记末尾的扩展练习，把“看懂”变成“会写”。
+20. 学习状态驱动的动态工具筛选，分清工具注册、模型可见清单、模型申请与工具执行。
+21. 最后学习 Agentic RAG，观察系统如何检查检索质量，并在结果不理想时改写问题、重新检索。
+22. 尝试完成每篇笔记末尾的扩展练习，把“看懂”变成“会写”。
 
 ## 快速开始
 
@@ -209,6 +211,14 @@ python langchain_class_middleware.py
 
 该示例同样使用 `OPENROUTER_API_KEY`；双层重试用于学习调用关系，持续失败时每个模型节点最多有九次底层模型尝试，详见第 20 篇。
 
+运行根据 auth 筛选公开或私有演示工具的 Agent：
+
+```bash
+python langchain_state_based_tools.py
+```
+
+第 21 篇沿用 OpenRouter，并记录筛选与执行、handler 回调的学习过程。默认认证分支只展示 private_；这是工具清单筛选示例，没有实现真实登录认证。
+
 第 17 篇的主模型和摘要模型均通过 OpenRouter 创建。运行全部离线测试：
 
 ```bash
@@ -242,13 +252,15 @@ python -m unittest discover -s tests -v
 │   ├── 17-langchain-summarization-middleware.md
 │   ├── 18-langchain-content-moderation.md
 │   ├── 19-langchain-custom-middleware.md
-│   └── 20-langchain-class-middleware.md
+│   ├── 20-langchain-class-middleware.md
+│   └── 21-langchain-state-based-tools.md
 ├── tests/                          # 离线 Agent 与检查点验证
 ├── .env.example
 ├── langchain_class_middleware.py
 ├── langchain_custom_middleware.py
 ├── langchain_openai_moderation.py
 ├── langchain_openrouter_input_moderation.py
+├── langchain_state_based_tools.py
 ├── langchain_summarization_middleware.py
 ├── langchain_weather_structured_agent.py
 ├── langgraph_agentic_rag.py
@@ -293,3 +305,4 @@ python -m unittest discover -s tests -v
 - [x] LangChain：内容审核、独立凭据、三种处理方式与 OpenRouter 输入审核
 - [x] LangChain：自定义中间件、六种钩子、handler 回调与有限重试
 - [x] LangChain：类式中间件、实例方法、嵌套顺序与双层重试放大
+- [x] LangChain：自定义 State、动态工具筛选、request.override 与模型/工具执行边界

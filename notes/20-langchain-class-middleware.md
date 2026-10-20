@@ -786,3 +786,5 @@ if __name__ == "__main__":
 - [LangChain Agent 工厂源码](https://github.com/langchain-ai/langchain/blob/master/libs/langchain/langchain/agents/factory.py)：包装器组合及 Agent 图连接；在线分支可能与本地版本不同。
 - [上一章：自定义中间件](19-langchain-custom-middleware.md)：六种钩子、语法拆解与工具返回协议。
 - [测试目录说明](../tests/README.md#类式中间件)：本章验证命令与覆盖范围。
+
+- [下一章：状态驱动的工具筛选](21-langchain-state-based-tools.md)：在 handler 调用前按 auth 筛选本轮工具清单，拆解筛选、模型申请与工具执行。

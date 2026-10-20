@@ -68,10 +68,24 @@ python -m unittest discover -s tests -p test_class_middleware.py -v
 
 详见 [第 20 篇学习笔记](../notes/20-langchain-class-middleware.md#validation)。
 
+## 状态驱动的工具筛选
+
+```bash
+python -m unittest discover -s tests -p test_state_based_tools.py -v
+```
+
+离线模型驱动真实 Agent、中间件、工具绑定及工具执行，记录每次模型实际拿到的工具名；同步和异步 HTTP 客户端被阻断。
+
+覆盖 auth 两条分支及缺省、公开/私有工具循环、同一 Agent 切换状态、override 新请求与原清单、无匹配工具、执行权限边界、工具异常、循环中状态更新，以及 OpenRouter 构造参数，共 12 项。
+
+权限边界测试故意返回未暴露但已注册的工具调用，用于确认示例没有实现执行端鉴权；工具仅返回固定文本，未访问真实私密数据。
+
+详见 [第 21 篇学习笔记](../notes/21-langchain-state-based-tools.md#validation)。
+
 ## 运行全部验证
 
 ```bash
 python -m unittest discover -s tests -v
 ```
 
-当前共 60 项离线测试，不代替真实模型服务认证、网络连通性、摘要质量或内容审核准确性验证。
+当前共 72 项离线测试，不代替真实模型服务认证、网络连通性、摘要质量或内容审核准确性验证。

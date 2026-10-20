@@ -2,7 +2,7 @@
 
 这是我的大模型应用与 Agent 开发学习笔记。每个主题都尽量包含：通俗解释、流程图、可运行代码、预期结果、常见错误和复习问题，方便零基础读者理解，也方便自己回顾。
 
-当前收录 **21 个学习主题**，包括结构化天气 Agent、摘要与内容审核中间件、自定义钩子、类式中间件与状态驱动的工具筛选。
+当前收录 **22 个学习主题**，包括结构化天气 Agent、摘要与内容审核中间件、自定义钩子、动态工具筛选和基于 Context 的动态提示词。
 
 ## 学习目录
 
@@ -29,6 +29,7 @@
 | 19 | LangChain 自定义中间件 | 六种钩子、handler 回调、模型重试、工具返回协议与组合顺序 | [学习笔记](notes/19-langchain-custom-middleware.md) · [示例代码](langchain_custom_middleware.py) |
 | 20 | LangChain 类式中间件 | AgentMiddleware 继承、self、实例化、执行顺序与双层重试放大 | [学习笔记](notes/20-langchain-class-middleware.md) · [示例代码](langchain_class_middleware.py) |
 | 21 | LangChain 状态驱动的工具筛选 | 自定义 State、列表推导式、request.override、handler 与工具执行边界 | [学习笔记](notes/21-langchain-state-based-tools.md) · [示例代码](langchain_state_based_tools.py) |
+| 22 | LangChain 动态提示词 | dynamic_prompt、TypedDict、Runtime Context、角色分支与系统消息注入 | [学习笔记](notes/22-langchain-dynamic-prompt.md) · [示例代码](langchain_dynamic_prompt.py) |
 
 ## 建议学习顺序
 
@@ -52,8 +53,9 @@
 18. 学习自定义中间件，掌握六种钩子的执行位置、handler 回调、重试边界与工具异常传播。
 19. 学习类式中间件，理解 `AgentMiddleware`、`self`、实例化、列表顺序与两层重试的乘法关系。
 20. 学习状态驱动的动态工具筛选，分清工具注册、模型可见清单、模型申请与工具执行。
-21. 最后学习 Agentic RAG，观察系统如何检查检索质量，并在结果不理想时改写问题、重新检索。
-22. 尝试完成每篇笔记末尾的扩展练习，把“看懂”变成“会写”。
+21. 学习动态提示词，通过 Runtime Context 传入用户水平，区分系统指令、用户消息与 State。
+22. 最后学习 Agentic RAG，观察系统如何检查检索质量，并在结果不理想时改写问题、重新检索。
+23. 尝试完成每篇笔记末尾的扩展练习，把“看懂”变成“会写”。
 
 ## 快速开始
 
@@ -219,6 +221,14 @@ python langchain_state_based_tools.py
 
 第 21 篇沿用 OpenRouter，并记录筛选与执行、handler 回调的学习过程。默认认证分支只展示 private_；这是工具清单筛选示例，没有实现真实登录认证。
 
+运行根据用户水平生成系统提示词的 Agent：
+
+```bash
+python langchain_dynamic_prompt.py
+```
+
+第 22 篇使用 `DYNAMIC_PROMPT_ROLE` 切换专家或初学者，沿用 OpenRouter；重点区分 Context、State、动态提示词与模型最终回答。
+
 第 17 篇的主模型和摘要模型均通过 OpenRouter 创建。运行全部离线测试：
 
 ```bash
@@ -253,11 +263,13 @@ python -m unittest discover -s tests -v
 │   ├── 18-langchain-content-moderation.md
 │   ├── 19-langchain-custom-middleware.md
 │   ├── 20-langchain-class-middleware.md
-│   └── 21-langchain-state-based-tools.md
+│   ├── 21-langchain-state-based-tools.md
+│   └── 22-langchain-dynamic-prompt.md
 ├── tests/                          # 离线 Agent 与检查点验证
 ├── .env.example
 ├── langchain_class_middleware.py
 ├── langchain_custom_middleware.py
+├── langchain_dynamic_prompt.py
 ├── langchain_openai_moderation.py
 ├── langchain_openrouter_input_moderation.py
 ├── langchain_state_based_tools.py
@@ -306,3 +318,4 @@ python -m unittest discover -s tests -v
 - [x] LangChain：自定义中间件、六种钩子、handler 回调与有限重试
 - [x] LangChain：类式中间件、实例方法、嵌套顺序与双层重试放大
 - [x] LangChain：自定义 State、动态工具筛选、request.override 与模型/工具执行边界
+- [x] LangChain：dynamic_prompt、TypedDict、角色上下文与系统提示词注入

@@ -82,10 +82,24 @@ python -m unittest discover -s tests -p test_state_based_tools.py -v
 
 详见 [第 21 篇学习笔记](../notes/21-langchain-state-based-tools.md#validation)。
 
+## 动态提示词
+
+```bash
+python -m unittest discover -s tests -p test_dynamic_prompt.py -v
+```
+
+离线模型驱动真实 Agent 与 dynamic_prompt，捕获实际模型输入中的系统消息，阻断同步和异步 HTTP 客户端。
+
+覆盖初学者、专家、未知角色、空上下文字典、缺失上下文、同一 Agent 切换角色、Context 与 State 分离、误放字段、静态提示词替换、补充工具循环、OpenRouter 参数及脚本最终输出，共 12 项。
+
+这些测试验证提示词传递，不评价真实模型的解释质量或角色风格遵循程度。
+
+详见 [第 22 篇学习笔记](../notes/22-langchain-dynamic-prompt.md#validation)。
+
 ## 运行全部验证
 
 ```bash
 python -m unittest discover -s tests -v
 ```
 
-当前共 72 项离线测试，不代替真实模型服务认证、网络连通性、摘要质量或内容审核准确性验证。
+当前共 84 项离线测试，不代替真实模型服务认证、网络连通性、摘要质量或内容审核准确性验证。

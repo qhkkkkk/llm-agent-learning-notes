@@ -703,3 +703,5 @@ class State(AgentState):
 - [第 19 篇：自定义中间件](19-langchain-custom-middleware.md)：回调语法、六种钩子与工具消息协议。
 - [第 20 篇：类式中间件](20-langchain-class-middleware.md)：多层 handler 的嵌套边界。
 - [离线测试说明](../tests/README.md#状态驱动的工具筛选)：运行方式与覆盖范围。
+
+- [下一章：动态提示词](22-langchain-dynamic-prompt.md)：通过 Runtime Context 调整角色表达，理解装饰器如何继续模型调用。

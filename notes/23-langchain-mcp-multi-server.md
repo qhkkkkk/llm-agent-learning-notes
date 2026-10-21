@@ -2,7 +2,7 @@
 
 > 将计算器和天气函数放进独立 MCP 服务，再让 LangChain Agent 发现并调用它们。本文把三份文件作为一套程序来理解，重点解释工具发现、协议适配、会话生命周期、异步工具调用和真实运行中的 401 排错。
 
-[返回首页](../README.md) · [三文件示例目录](../examples/mcp_multi_server/README.md) · [本机集成测试](../tests/test_mcp_multi_server.py) · [上一章：动态提示词](22-langchain-dynamic-prompt.md)
+[返回首页](../README.md) · [三文件示例目录](../examples/mcp_multi_server/README.md) · [本机集成测试](../tests/test_mcp_multi_server.py) · [上一章：动态提示词](22-langchain-dynamic-prompt.md) · [下一章：文档资源与查阅 Agent](24-langchain-mcp-document-store.md)
 
 <a id="toc"></a>
 ## 目录

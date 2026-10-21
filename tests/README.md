@@ -110,10 +110,24 @@ python -m unittest discover -s tests -p test_mcp_multi_server.py -v
 
 详见 [第 23 篇学习笔记](../notes/23-langchain-mcp-multi-server.md#validation)。
 
+## MCP 文档资源与查阅 Agent
+
+```bash
+python -m unittest discover -s tests -p test_mcp_document_store.py -v
+```
+
+使用真实 stdio 文档子进程和离线模型，检查资源与本地工具的两阶段链路；不连接现有 HTTP 服务、不请求真实模型。
+
+覆盖 OpenRouter 配置与缺失 Key、解释器定位、query 未筛选、空资源与 MIME 筛选、多文档拼接、两资源枚举、FAQ 与指南读取、无效 URI、会话关闭后的缓存，以及完整 Agent 的单次预读取与工具消息配对，共 12 项。
+
+测试沿用 FastMCP 2.14.5、MCP 1.30.0、langchain-mcp-adapters 0.3.2；Windows 环境需要允许创建异步子进程命名管道。模型调用被离线替身替代，不能证明真实模型的工具决策或回答质量。
+
+详见 [第 24 篇学习笔记](../notes/24-langchain-mcp-document-store.md#validation)。
+
 ## 运行全部验证
 
 ```bash
 python -m unittest discover -s tests -v
 ```
 
-当前共 93 项验证：原有 84 项使用离线模型，本章新增 9 项包含真实本机 MCP 通信与离线模型。验证不替代真实模型服务认证、公网服务可用性或业务数据质量评估。
+当前共 105 项验证：前 22 篇共 84 项离线验证，第 23 篇 9 项 MCP 双服务验证，第 24 篇 12 项文档资源验证。MCP 章节包含真实本机通信，模型部分使用离线替身。验证不替代真实模型服务认证、公网服务可用性或业务数据质量评估。

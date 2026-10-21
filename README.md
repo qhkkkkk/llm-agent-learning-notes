@@ -2,7 +2,7 @@
 
 这是我的大模型应用与 Agent 开发学习笔记。每个主题都尽量包含：通俗解释、流程图、可运行代码、预期结果、常见错误和复习问题，方便零基础读者理解，也方便自己回顾。
 
-当前收录 **23 个学习主题**，包括结构化天气 Agent、自定义中间件、动态工具与提示词，以及多服务 MCP 接入。
+当前收录 **24 个学习主题**，包括结构化天气 Agent、自定义中间件、动态工具与提示词，以及多服务 MCP 接入、文档资源与本地查阅工具。
 
 ## 学习目录
 
@@ -31,6 +31,7 @@
 | 21 | LangChain 状态驱动的工具筛选 | 自定义 State、列表推导式、request.override、handler 与工具执行边界 | [学习笔记](notes/21-langchain-state-based-tools.md) · [示例代码](langchain_state_based_tools.py) |
 | 22 | LangChain 动态提示词 | dynamic_prompt、TypedDict、Runtime Context、角色分支与系统消息注入 | [学习笔记](notes/22-langchain-dynamic-prompt.md) · [示例代码](langchain_dynamic_prompt.py) |
 | 23 | MCP 双服务 Agent | stdio/Streamable HTTP、工具发现、双会话、异步调用与 401 排错 | [学习笔记](notes/23-langchain-mcp-multi-server.md) · [三文件示例](examples/mcp_multi_server/README.md) · [客户端](examples/mcp_multi_server/agent_client.py) |
+| 24 | MCP 文档资源与查阅 Agent | stdio 资源、Blob、闭包工具、预加载缓存与工具消息 | [学习笔记](notes/24-langchain-mcp-document-store.md) · [两文件示例](examples/mcp_document_store/README.md) · [客户端](examples/mcp_document_store/agent_client.py) |
 
 ## 建议学习顺序
 
@@ -56,8 +57,9 @@
 20. 学习状态驱动的动态工具筛选，分清工具注册、模型可见清单、模型申请与工具执行。
 21. 学习动态提示词，通过 Runtime Context 传入用户水平，区分系统指令、用户消息与 State。
 22. 学习 MCP 双服务 Agent，将计算器 stdio 与天气 HTTP 工具接入同一 Agent，理解工具发现和会话生命周期。
-23. 最后学习 Agentic RAG，观察系统如何检查检索质量，并在结果不理想时改写问题、重新检索。
-24. 尝试完成每篇笔记末尾的扩展练习，把“看懂”变成“会写”。
+23. 学习 MCP 文档资源，通过 stdio 读取 FAQ，再用本地工具接入 Agent，区分预读取、缓存和按需检索。
+24. 最后学习 Agentic RAG，观察系统如何检查检索质量，并在结果不理想时改写问题、重新检索。
+25. 尝试完成每篇笔记末尾的扩展练习，把“看懂”变成“会写”。
 
 ## 快速开始
 
@@ -243,6 +245,14 @@ python examples/mcp_multi_server/agent_client.py
 
 第 23 篇提供三个配套源文件、兼容依赖版本、会话作用域说明及本机 MCP 集成验证。模型仍使用 OpenRouter；天气为固定演示值。
 
+运行 MCP 文档资源与查阅 Agent，只需启动客户端，文档服务由 stdio 客户端自动启动：
+
+```bash
+python examples/mcp_document_store/agent_client.py
+```
+
+第 24 篇解释两个文件的关系、资源与工具边界、Blob、闭包、MIME 和预加载缓存。沿用 OpenRouter；FAQ 是固定演示文档，不执行真实密码重置。
+
 运行全部验证（包含本机 MCP 通信，不调用真实模型）：
 
 ```bash
@@ -257,10 +267,14 @@ python -m unittest discover -s tests -v
 .
 ├── Docs/markdown/                  # Agentic RAG 使用的原始知识库资料
 ├── examples/
-│   └── mcp_multi_server/
+│   ├── mcp_multi_server/
+│   │   ├── README.md
+│   │   ├── math_server.py
+│   │   ├── weather_server.py
+│   │   └── agent_client.py
+│   └── mcp_document_store/
 │       ├── README.md
-│       ├── math_server.py
-│       ├── weather_server.py
+│       ├── docs_server.py
 │       └── agent_client.py
 ├── notes/
 │   ├── 01-langchain-rag-chain.md
@@ -285,8 +299,9 @@ python -m unittest discover -s tests -v
 │   ├── 20-langchain-class-middleware.md
 │   ├── 21-langchain-state-based-tools.md
 │   ├── 22-langchain-dynamic-prompt.md
-│   └── 23-langchain-mcp-multi-server.md
-├── tests/                          # 离线 Agent 与检查点验证
+│   ├── 23-langchain-mcp-multi-server.md
+│   └── 24-langchain-mcp-document-store.md
+├── tests/                          # 离线 Agent 与本机 MCP 验证
 ├── .env.example
 ├── langchain_class_middleware.py
 ├── langchain_custom_middleware.py
@@ -341,3 +356,5 @@ python -m unittest discover -s tests -v
 - [x] LangChain：自定义 State、动态工具筛选、request.override 与模型/工具执行边界
 - [x] LangChain：dynamic_prompt、TypedDict、角色上下文与系统提示词注入
 - [x] MCP：stdio、Streamable HTTP、工具适配、双会话生命周期与真实本机集成
+
+- [x] MCP：文档资源、Blob、闭包本地工具、预加载缓存与查阅 Agent
